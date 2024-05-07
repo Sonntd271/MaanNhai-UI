@@ -7,7 +7,7 @@ function toggleButton() {
     fetch('/close').then(response => {
       if (response.ok) {
         console.log('Close button clicked');
-        toggleButton.innerText = "ON"; // Change button text to "ON"
+        toggleButton.innerText = "CLOSE"; // Change button text to "ON"
       } else {
         console.error('Failed to click Close button');
       }
@@ -16,7 +16,7 @@ function toggleButton() {
     fetch('/open').then(response => {
       if (response.ok) {
         console.log('Open button clicked');
-        toggleButton.innerText = "OFF"; // Change button text to "OFF"
+        toggleButton.innerText = "OPEN"; // Change button text to "OFF"
       } else {
         console.error('Failed to click Open button');
       }

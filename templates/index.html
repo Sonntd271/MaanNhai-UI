@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ON/OFF Buttons with Image Template</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+<div class="maanhai-logo">
+  <img src="{{ url_for('static', filename='assets/maanhai.png') }}" alt="maannhai">
+</div>
+
+<div class="container">
+    <button class="button" onclick="toggleButton()">CLOSE</button>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
