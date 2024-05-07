@@ -53,7 +53,6 @@ def device_loop():
                 moveUntilPulley()
                 status = "close"
                 print("[SERVER] Curtains are CLOSED")
-            time.sleep(1)
             button_state = None  # Reset button state after processing
             waiting = True  # Resume waiting after action
 
@@ -92,14 +91,21 @@ def device_loop():
                 time.sleep(0.01)
                 status = "close"
 
-
 if __name__ == '__main__':
     waiting_thread = threading.Thread(target=print_waiting)
     waiting_thread.daemon = True 
     waiting_thread.start()
 
+    # Start Flask server in a separate thread
+    flask_thread = threading.Thread(target=app.run, kwargs={'host': '0.0.0.0', 'port': 8000})
+    flask_thread.daemon = True
+    flask_thread.start()
+
+    # Start the device loop
     device_thread = threading.Thread(target=device_loop)
     device_thread.daemon = True
     device_thread.start()
 
-    app.run(host='0.0.0.0', port=8000)
+    # Join threads to prevent main thread from exiting
+    flask_thread.join()
+    device_thread.join()
