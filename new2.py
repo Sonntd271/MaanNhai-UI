@@ -2,7 +2,6 @@ from flask import Flask, render_template, jsonify
 import threading
 import time
 import queue
-import RPi.GPIO as GPIO
 
 from MaanNaai2 import *
 
