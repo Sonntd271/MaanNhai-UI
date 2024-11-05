@@ -4,7 +4,7 @@ import time
 import queue
 import RPi.GPIO as GPIO
 
-from MaanNaai import *
+from MaanNaai2 import *
 
 app = Flask(__name__)
 

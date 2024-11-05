@@ -2,19 +2,19 @@ from gpiozero import LED, Button, DigitalInputDevice
 import time
 
 # Assign pins-----------------------------------------
-red = LED(11)
-green = LED(13)
-blue = LED(15)
+red = LED(17)
+green = LED(27)
+blue = LED(22)
 
-button1 = Button(18, pull_up=True)
-button2 = Button(16, pull_up=True)
+button1 = Button(24, pull_up=True)
+button2 = Button(23, pull_up=True)
 
-lmPulley = DigitalInputDevice(32, pull_up=True)
-lmMotor = DigitalInputDevice(31, pull_up=True)
+lmPulley = DigitalInputDevice(12, pull_up=True)
+lmMotor = DigitalInputDevice(6, pull_up=True)
 
-pul = LED(36)
-dir = LED(38)
-ena = LED(40)
+pul = LED(16)
+dir = LED(20)
+ena = LED(21)
 
 # Setup motor parameter-------------------------------
 speed = 50
@@ -23,8 +23,11 @@ rotate = 90
 # Setup functions to be used--------------------------
 
 def led(rgb):
-    r, g, b = [red.off if color == '0' else red.on for color in list(rgb)]
-    red.value, green.value, blue.value = r, g, b
+    r,g,b = [int(color) for color in rgb]
+    red.value = r
+    green.value = g
+    blue.value = b
+
 
 def ledOff():
     led("000")
@@ -86,21 +89,21 @@ def stopPulley():
         
 def moveUntilMotor():
     ledPurple()
-    while not lmMotor.is_active:
+    while lmMotor.is_active:
         moveToMotor()
     stopMotor()
     ledOff()
 
 def moveUntilPulley():
     ledBlue()
-    while not lmPulley.is_active:
+    while lmPulley.is_active:
         moveToPulley()
     stopPulley()
     ledOff()
 
 def moveHome():
     ledWhite()
-    while not lmPulley.is_active:
+    while lmPulley.is_active:
         moveToPulley()
     stopPulley()
     ledOff()
@@ -111,15 +114,19 @@ def main_MaanNaai(init_status="close"):
     status = init_status
     while True:    
         ledGreen()
+        # print(status)
 
-        if lmPulley.is_active:
+        if not lmPulley.is_active:
+            print("lmpulley active")
             stopPulley()
             status = "close"
-        if lmMotor.is_active:
+        if not lmMotor.is_active:
+            print("lmmotor active")
             stopMotor()
             status = "open"
             
         if button1.is_pressed:
+            print("b1 pressed")
             if status == "close":
                 ledCyan()
                 moveToMotor()
@@ -130,6 +137,7 @@ def main_MaanNaai(init_status="close"):
                 time.sleep(0.005)
 
         if button2.is_pressed:
+            print("b2 pressed")
             if button1.is_pressed:
                 moveHome()
                 break
