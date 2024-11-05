@@ -59,28 +59,31 @@ def device_loop():
 
         ledGreen()
         
-        if (GPIO.input(lmPulley)):
+
+        if not lmPulley.is_active:
+            # print("lmpulley active")
             stopPulley()
             status = "close"
-        if (GPIO.input(lmMotor)):
+        if not lmMotor.is_active:
+            # print("lmmotor active")
             stopMotor()
             status = "open"
             
-        if not GPIO.input(button1):
+        if button1.is_pressed:
+            print("b1 pressed")
             if status == "close":
                 ledCyan()
                 moveToMotor()
                 time.sleep(0.005)
-        
             else:
                 ledYellow()
                 moveToPulley()
                 time.sleep(0.005)
 
-        if not GPIO.input(button2):
-            if not GPIO.input(button1):
+        if button2.is_pressed:
+            print("b2 pressed")
+            if button1.is_pressed:
                 moveHome()
-                status = "close"
                 break
 
             if status == "close":
