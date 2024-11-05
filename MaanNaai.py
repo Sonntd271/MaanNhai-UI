@@ -176,4 +176,5 @@ def main_MaanNaai(init_status = "close"):
                 time.sleep(0.01)
                 status = "close"
            
-main_MaanNaai()
+if __name__ == "__main__":
+	main_MaanNaai()
