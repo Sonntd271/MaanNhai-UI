@@ -4,6 +4,11 @@ import time
 import queue
 
 from MaanNaai2 import *
+from tts import speak
+# def speak(s):
+#     return
+
+# import os, sys
 
 app = Flask(__name__)
 
@@ -41,6 +46,13 @@ def device_loop():
     global button_state, waiting
     status = STATUS
     while True:
+
+
+
+
+
+
+
         if not request_queue.empty():
             button_state = request_queue.get()
         
@@ -48,10 +60,12 @@ def device_loop():
             if not button_state and status == "close":
                 moveUntilMotor()
                 status = "open"
+                speak("open")
                 print("[SERVER] Curtains are OPENED")
             elif button_state and status == "open":
                 moveUntilPulley()
                 status = "close"
+                speak("close")
                 print("[SERVER] Curtains are CLOSED")
             button_state = None  # Reset button state after processing
             waiting = True  # Resume waiting after action
@@ -63,13 +77,15 @@ def device_loop():
             # print("lmpulley active")
             stopPulley()
             status = "close"
+            speak("close")
         if not lmMotor.is_active:
             # print("lmmotor active")
             stopMotor()
             status = "open"
+            speak("open")
             
         if button1.is_pressed:
-            print("b1 pressed")
+            # print("b1 pressed")
             if status == "close":
                 ledCyan()
                 moveToMotor()
@@ -80,19 +96,24 @@ def device_loop():
                 time.sleep(0.005)
 
         if button2.is_pressed:
-            print("b2 pressed")
+            # print("b2 pressed")
             if button1.is_pressed:
                 moveHome()
+                speak("Curtain Turning off")
+                # TODO add something that turns off the program
+                # os._exit()
                 break
 
             if status == "close":
                 moveUntilMotor()
                 time.sleep(0.01)
                 status = "open"
+                speak("open")
             else:
                 moveUntilPulley()
                 time.sleep(0.01)
                 status = "close"
+                speak("close")
 
 if __name__ == '__main__':
     waiting_thread = threading.Thread(target=print_waiting)
