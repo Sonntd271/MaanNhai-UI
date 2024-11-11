@@ -1,9 +1,11 @@
 # Ignore cache
 __pycache__/
 *.pyc
+.terraform*
 
 # Ignore venv
 venv/
 
-# Ignore key files (test)
+# Ignore key files
+maannhai-key*
 *.pem
