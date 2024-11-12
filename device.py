@@ -11,13 +11,31 @@ class DeviceController:
         self.mqtt_subscriber = Subscriber(topic="maannhai-mqtt", callback=self.handle_mqtt_message)
 
     def handle_mqtt_message(self, message):
-        """
-        Callback function to handle MQTT messages.
+        """Callback function to handle MQTT messages.
+
+        Parameters
+        ----------
+        message : str
+            The MQTT message that will be handle.
+
+        Returns
+        -------
+        None
         """
         self.request_queue.put(message)
 
 
     def device_loop(self):
+        """A constant looping function reading the message.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         while True:
             if not self.request_queue.empty():
                 action = self.request_queue.get()
@@ -30,6 +48,16 @@ class DeviceController:
             
 
     def start(self):
+        """Creating two threading, a device loop and a button loop.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         # Start button thread
         button_thread = threading.Thread(target=self.maannhai.handle_buttons, kwargs={"queue": self.request_queue})
         button_thread.daemon = True
