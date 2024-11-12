@@ -5,6 +5,18 @@ import playsound
 
 
 def speak(phrase):
+    """speaks phrase based on given input.
+
+    Parameters
+    ----------
+    phrase : str
+        The phrase in english text.
+
+    Returns
+    -------
+    None
+    """
+
     # Create gTTS object
     tts = gTTS(text=phrase, lang='en', slow=False)
     

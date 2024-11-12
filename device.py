@@ -11,7 +11,7 @@ class DeviceController:
         self.mqtt_subscriber = Subscriber(topic="maannhai-mqtt", callback=self.handle_mqtt_message)
 
     def handle_mqtt_message(self, message):
-        """Callback function to handle MQTT messages.
+        """Handles MQTT messages.
 
         Parameters
         ----------
@@ -26,7 +26,7 @@ class DeviceController:
 
 
     def device_loop(self):
-        """A constant looping function reading the message.
+        """Reads the messages from request queue.
 
         Parameters
         ----------
@@ -48,7 +48,7 @@ class DeviceController:
             
 
     def start(self):
-        """Creating two threading, a device loop and a button loop.
+        """Creates two threads, one for a device loop and another for a button loop.
 
         Parameters
         ----------
