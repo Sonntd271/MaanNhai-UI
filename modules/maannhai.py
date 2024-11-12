@@ -148,7 +148,7 @@ class MaanNhai:
             print("[DEVICE] Curtains are CLOSED")
             self.ledGreen()
 
-    def handle_buttons(self):
+    def handle_buttons(self, queue):
         """
         Handles button presses to control the curtains.
         """
@@ -169,14 +169,7 @@ class MaanNhai:
 
             if self.button1.is_pressed:
                 print("Button1 pressed")
-                if self.status == "close":
-                    self.ledCyan()
-                    self.moveToMotor()
-                    time.sleep(0.005)
-                else:
-                    self.ledYellow()
-                    self.moveToPulley()
-                    time.sleep(0.005)
+                queue.put("CLOSE")
 
             if self.button2.is_pressed:
                 print("Button2 pressed")
@@ -185,19 +178,7 @@ class MaanNhai:
                     print("Curtain Turning off")
                     speak("Curtain turning off")
                     break
-
-                if self.status == "close":
-                    self.moveUntilMotor()
-                    time.sleep(0.01)
-                    self.status = "open"
-                    speak("open")
-                    print("[DEVICE] Curtains are OPENED")
-                else:
-                    self.moveUntilPulley()
-                    time.sleep(0.01)
-                    self.status = "close"
-                    speak("close")
-                    print("[DEVICE] Curtains are CLOSED")
+                queue.put("OPEN")
 
 
 if __name__ == '__main__':
