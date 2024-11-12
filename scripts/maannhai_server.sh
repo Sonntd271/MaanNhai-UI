@@ -29,4 +29,4 @@ pip3 install -r requirements.txt
 
 # Run app
 sudo chmod +x app.py
-python3 app.py
+python3 app.py &> app.log &
