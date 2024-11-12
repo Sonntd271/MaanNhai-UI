@@ -128,72 +128,72 @@ class MaanNhai:
 
     def open_curtain(self):
         if self.status == "close":
-            self.led_cyan()
-            self.move_to_motor()
+            self.ledCyan()
+            self.moveToMotor()
             time.sleep(0.005)
-            self.move_until_motor()
+            self.moveUntilMotor()
             self.status = "open"
             speak("open")
             print("[DEVICE] Curtains are OPENED")
-            self.led_green()
+            self.ledGreen()
 
     def close_curtain(self):
         if self.status == "open":
-            self.led_yellow()
-            self.move_to_pulley()
+            self.ledYellow()
+            self.moveToPulley()
             time.sleep(0.005)
-            self.move_until_pulley()
+            self.moveUntilPulley()
             self.status = "close"
             speak("close")
             print("[DEVICE] Curtains are CLOSED")
-            self.led_green()
+            self.ledGreen()
 
     def handle_buttons(self):
         """
         Handles button presses to control the curtains.
         """
         while True:
-            self.led_green()
+            self.ledGreen()
 
             if not self.lmPulley.is_active:
                 print("lmPulley active")
-                self.stop_pulley()
+                self.stopPulley()
                 self.status = "close"
                 speak("close")
 
             if not self.lmMotor.is_active:
                 print("lmMotor active")
-                self.stop_motor()
+                self.stopMotor()
                 self.status = "open"
                 speak("open")
 
             if self.button1.is_pressed:
                 print("Button1 pressed")
                 if self.status == "close":
-                    self.led_cyan()
-                    self.move_to_motor()
+                    self.ledCyan()
+                    self.moveToMotor()
                     time.sleep(0.005)
                 else:
-                    self.led_yellow()
-                    self.move_to_pulley()
+                    self.ledYellow()
+                    self.moveToPulley()
                     time.sleep(0.005)
 
             if self.button2.is_pressed:
                 print("Button2 pressed")
                 if self.button1.is_pressed:
-                    self.move_home()
+                    self.moveHome()
                     print("Curtain Turning off")
                     speak("Curtain turning off")
                     break
 
                 if self.status == "close":
-                    self.move_until_motor()
+                    self.moveUntilMotor()
                     time.sleep(0.01)
                     self.status = "open"
                     speak("open")
                     print("[DEVICE] Curtains are OPENED")
                 else:
-                    self.move_until_pulley()
+                    self.moveUntilPulley()
                     time.sleep(0.01)
                     self.status = "close"
                     speak("close")
