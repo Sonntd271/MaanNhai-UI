@@ -2,6 +2,7 @@ import threading
 import queue
 from modules.maannhai import MaanNhai
 from modules.subscriber import Subscriber
+import time
 
 class DeviceController:
     def __init__(self):
@@ -15,6 +16,7 @@ class DeviceController:
         """
         self.request_queue.put(message)
 
+
     def device_loop(self):
         while True:
             if not self.request_queue.empty():
@@ -23,17 +25,20 @@ class DeviceController:
                     self.maannhai.open_curtain()
                 elif action == "CLOSE":
                     self.maannhai.close_curtain()
+            else:
+                time.sleep(0.1)
+            
 
     def start(self):
-        # Start the device loop thread
-        device_thread = threading.Thread(target=self.device_loop)
-        device_thread.daemon = True
-        device_thread.start()
-
         # Start button thread
         button_thread = threading.Thread(target=self.maannhai.handle_buttons, kwargs={"queue": self.request_queue})
         button_thread.daemon = True
         button_thread.start()
+
+        # Start the device loop thread
+        device_thread = threading.Thread(target=self.device_loop)
+        device_thread.daemon = True
+        device_thread.start()
 
         # Start the MQTT subscriber in the main thread
         self.mqtt_subscriber.run()
