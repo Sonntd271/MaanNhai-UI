@@ -30,5 +30,15 @@ class DeviceController:
         device_thread.daemon = True
         device_thread.start()
 
+        # Start button thread
+        button_thread = threading.Thread(target=self.maannhai.handle_buttons, kwargs={"queue": self.request_queue})
+        button_thread.daemon = True
+        button_thread.start()
+
         # Start the MQTT subscriber in the main thread
         self.mqtt_subscriber.run()
+
+
+if __name__ == "__main__":
+    device = DeviceController()
+    device.start()
