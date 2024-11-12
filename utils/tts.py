@@ -2,10 +2,8 @@ from gtts import gTTS
 import os
 import playsound
 
-
-
 def speak(phrase):
-    """speaks phrase based on given input.
+    """Speaks phrase based on given input.
 
     Parameters
     ----------

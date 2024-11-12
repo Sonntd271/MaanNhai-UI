@@ -12,17 +12,17 @@ class Subscriber:
     Attributes
     ----------
     broker : str
-        the MQTT broker.
+        The MQTT broker - ('broker.emqx.io') by default.
     port : int
-        the MQTT server port.
+        The MQTT server port - (1883) by default.
     topic : str
-        the topic name.
+        The topic name - ('maannhai-mqtt') by default.
     callback : int
-        the callback function.
+        The callback function.
     client_id : str
-        the client id, e.g. - [subscribe-XXXX].
+        The client id, e.g. - [subscribe-XXXX].
     client: paho.mqtt.client.Client
-     the client object.
+        The client object.
 
 
     Methods
@@ -57,6 +57,7 @@ class Subscriber:
 
         def on_connect(client, userdata, flags, rc, properties):
             """Checks connecting status of the client.
+            
             Parameters
             ----------
             client : str
@@ -84,7 +85,7 @@ class Subscriber:
         self.client.connect(self.broker, self.port)
 
     def subscribe(self):
-        """Subcribe messages from the MQTT broker.
+        """Subcribes messages from the MQTT broker.
 
         Parameters
         ----------
@@ -97,6 +98,7 @@ class Subscriber:
 
         def on_message(client, userdata, msg):
             """Decodes message from MQTT broker.
+
             Parameters
             ----------
             client : str
@@ -124,14 +126,15 @@ class Subscriber:
 
     def run(self):
         """Runs main programs including the connect function, the subscribe function, and client loop.
-            Parameters
-            ----------
-            None
 
-            Returns
-            -------
-            None
-            """
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
         
         self.connect()
         self.subscribe()

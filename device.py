@@ -5,6 +5,30 @@ from modules.subscriber import Subscriber
 import time
 
 class DeviceController:
+    """
+    A class used to represent a device controller.
+
+    ...
+
+    Attributes
+    ----------
+    maannhai : MannNhai
+        The MaanNhai class (device).
+    request_queue : queue.Queue
+        The request queue.
+    mqtt_subscriber : Subcriber
+        The MQTT broker's subscriber.
+
+    Methods
+    -------
+    handle_mqtt_message(message)
+        Handles MQTT messages.
+    device_loop()
+        Reads the messages from request queue.
+    start()
+        Creates two threads, one for a device loop and another for a button loop.
+    """
+
     def __init__(self):
         self.maannhai = MaanNhai(init_status="close")
         self.request_queue = queue.Queue()
@@ -22,7 +46,7 @@ class DeviceController:
         -------
         None
         """
-        
+
         self.request_queue.put(message)
 
 
