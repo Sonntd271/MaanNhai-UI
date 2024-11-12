@@ -5,19 +5,63 @@ from modules.subscriber import Subscriber
 import time
 
 class DeviceController:
+    """
+    A class used to represent a device controller.
+
+    ...
+
+    Attributes
+    ----------
+    maannhai : MannNhai
+        The MaanNhai class (device).
+    request_queue : queue.Queue
+        The request queue.
+    mqtt_subscriber : Subcriber
+        The MQTT broker's subscriber.
+
+    Methods
+    -------
+    handle_mqtt_message(message)
+        Handles MQTT messages.
+    device_loop()
+        Reads the messages from request queue.
+    start()
+        Creates two threads, one for a device loop and another for a button loop.
+    """
+
     def __init__(self):
         self.maannhai = MaanNhai(init_status="close")
         self.request_queue = queue.Queue()
         self.mqtt_subscriber = Subscriber(topic="maannhai-mqtt", callback=self.handle_mqtt_message)
 
     def handle_mqtt_message(self, message):
+        """Handles MQTT messages.
+
+        Parameters
+        ----------
+        message : str
+            The MQTT message that will be handle.
+
+        Returns
+        -------
+        None
         """
-        Callback function to handle MQTT messages.
-        """
+
         self.request_queue.put(message)
 
 
     def device_loop(self):
+        """Reads the messages from request queue.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
         while True:
             if not self.request_queue.empty():
                 action = self.request_queue.get()
@@ -30,6 +74,17 @@ class DeviceController:
             
 
     def start(self):
+        """Creates two threads, one for a device loop and another for a button loop.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
         # Start button thread
         button_thread = threading.Thread(target=self.maannhai.handle_buttons, kwargs={"queue": self.request_queue})
         button_thread.daemon = True
