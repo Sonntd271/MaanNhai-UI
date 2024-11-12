@@ -17,7 +17,7 @@ class Publisher:
         The topic name - ('maannhai-mqtt') by default.
     client_id : str
         The client id, e.g. - [python-mqtt-XXXX].
-    client: paho.mqtt.client.Client
+    client : paho.mqtt.client.Client
         The client object.
 
 
