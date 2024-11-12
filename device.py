@@ -22,6 +22,7 @@ class DeviceController:
         -------
         None
         """
+        
         self.request_queue.put(message)
 
 
@@ -36,6 +37,7 @@ class DeviceController:
         -------
         None
         """
+
         while True:
             if not self.request_queue.empty():
                 action = self.request_queue.get()
@@ -58,6 +60,7 @@ class DeviceController:
         -------
         None
         """
+
         # Start button thread
         button_thread = threading.Thread(target=self.maannhai.handle_buttons, kwargs={"queue": self.request_queue})
         button_thread.daemon = True

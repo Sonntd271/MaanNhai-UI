@@ -4,6 +4,37 @@ from paho.mqtt import client as mqtt_client
 ELIGIBLE_MESSAGES = ["OPEN", "CLOSE"]
 
 class Subscriber:
+    """
+    A class used to represent a subscriber of a MQTT server.
+
+    ...
+
+    Attributes
+    ----------
+    broker : str
+        the MQTT broker.
+    port : int
+        the MQTT server port.
+    topic : str
+        the topic name.
+    callback : int
+        the callback function.
+    client_id : str
+        the client id, e.g. - [subscribe-XXXX].
+    client: paho.mqtt.client.Client
+     the client object.
+
+
+    Methods
+    -------
+    connect()
+        Connects the client to the MQTT broker.
+    subscribe()
+        Subcribe messages from the MQTT broker.
+    run()
+        Runs the main program flow.
+    """
+
     def __init__(self, callback, broker='broker.emqx.io', port=1883, topic="maannhai-mqtt"):
         self.broker = broker
         self.port = port
@@ -13,7 +44,37 @@ class Subscriber:
         self.client = mqtt_client.Client(client_id=self.client_id, callback_api_version=mqtt_client.CallbackAPIVersion.VERSION2)
 
     def connect(self):
+        """Connects the client to the MQTT broker.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
         def on_connect(client, userdata, flags, rc, properties):
+            """Checks connecting status of the client.
+            Parameters
+            ----------
+            client : str
+                The client name.
+            userdata : str
+                The userdata.
+            flags : str
+                The flags.
+            rc : int
+                The return code.
+            properties : str
+                The properties.
+
+            Returns
+            -------
+            None
+            """
+
             if rc == 0:
                 print("Connected to MQTT Broker!")
             else:
@@ -23,7 +84,33 @@ class Subscriber:
         self.client.connect(self.broker, self.port)
 
     def subscribe(self):
+        """Subcribe messages from the MQTT broker.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
         def on_message(client, userdata, msg):
+            """Decodes message from MQTT broker.
+            Parameters
+            ----------
+            client : str
+                The client name.
+            userdata : str
+                The userdata.
+            msg : str
+                The message.
+
+            Returns
+            -------
+            None
+            """
+
             message = msg.payload.decode()
             print(f"Received `{message}` from `{msg.topic}` topic")
 
@@ -36,6 +123,16 @@ class Subscriber:
         self.client.on_message = on_message
 
     def run(self):
+        """Runs main programs including the connect function, the subscribe function, and client loop.
+            Parameters
+            ----------
+            None
+
+            Returns
+            -------
+            None
+            """
+        
         self.connect()
         self.subscribe()
         self.client.loop_forever()
