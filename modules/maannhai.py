@@ -1,6 +1,6 @@
 import time
 from gpiozero import LED, Button, DigitalInputDevice
-from utils.tts import speak
+from utils.tts import speak, OPEN, CLOSE, OFF, ENA
 
 class MaanNhai:
     """
@@ -406,11 +406,10 @@ class MaanNhai:
         if self.status == "close":
             print("[DEVICE] Openning")
             self.ledCyan()
-            # self.moveToMotor()
-            # time.sleep(0.005)
             self.moveUntilMotor()
             self.status = "open"
-            # speak("open")
+            if ENA:
+                speak("open")
             print("[DEVICE] Curtains are OPENED")
             self.ledGreen()
 
@@ -429,11 +428,10 @@ class MaanNhai:
         if self.status == "open":
             print("[DEVICE] Closing")
             self.ledYellow()
-            # self.moveToPulley()
-            # time.sleep(0.005)
             self.moveUntilPulley()
             self.status = "close"
-            # speak("close")
+            if ENA:
+                speak("close")
             print("[DEVICE] Curtains are CLOSED")
             self.ledGreen()
 
@@ -459,13 +457,15 @@ class MaanNhai:
                 print("lmPulley active")
                 self.stopPulley()
                 self.status = "close"
-                # speak("close")
+                if ENA:
+                    speak(CLOSE)
 
             if not self.lmMotor.is_active:
                 print("lmMotor active")
                 self.stopMotor()
                 self.status = "open"
-                # speak("open")
+                if ENA:
+                    speak(OPEN)
 
             if self.button1.is_pressed:
                 print("Button1 pressed")
@@ -483,18 +483,21 @@ class MaanNhai:
                 if self.button1.is_pressed:
                     self.moveHome()
                     print("Curtain Turning off")
-                    # speak("Curtain turning off")
+                    if ENA:
+                        speak(OFF)
                     return
                 if self.status == "close":
                     self.moveUntilMotor()
                     time.sleep(0.01)
                     self.status = "open"
-                    # speak("open")
+                    if ENA:
+                        speak(OPEN)
                 else:
                     self.moveUntilPulley()
                     time.sleep(0.01)
                     self.status = "close"
-                    # speak("close")
+                    if ENA:
+                        speak(CLOSE)
 
             time.sleep(0.1)
 
