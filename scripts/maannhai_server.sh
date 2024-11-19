@@ -17,8 +17,8 @@ sudo apt-get update
 sudo apt install -y python3-pip python3.12-venv && sudo apt-get update
 
 # Clone into repo
-git clone $REPOSITORY_URL
-cd $REPOSITORY_NAME
+git clone "$REPOSITORY_URL"
+cd "$REPOSITORY_NAME"
 
 # Set up a virtual environment
 python3 -m venv venv
@@ -29,4 +29,4 @@ pip3 install -r requirements.txt
 
 # Run app
 sudo chmod +x app.py
-python3 app.py &> app.log &
+python3 -u app.py &> app.log &
