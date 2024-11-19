@@ -42,7 +42,7 @@ class Publisher:
         self.client.on_connect = self.on_connect
         self.client.on_disconnect = self.on_disconnect
 
-    def on_connect(client, userdata, flags, rc, properties):
+    def on_connect(self, client, userdata, flags, rc, properties):
         """Checks connecting status of the client.
 
         Parameters
