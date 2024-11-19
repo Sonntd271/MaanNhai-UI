@@ -10,3 +10,6 @@ venv/
 # Ignore key files
 maannhai-key*
 *.pem
+
+# Ignore log files
+*.log
