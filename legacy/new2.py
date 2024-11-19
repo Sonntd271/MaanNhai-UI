@@ -4,9 +4,9 @@ import time
 import queue
 
 from MaanNaai2 import *
-from tts import speak
-# def speak(s):
-#     return
+# from tts import speak
+def speak(s):
+    return
 
 # import os, sys
 
@@ -46,12 +46,6 @@ def device_loop():
     global button_state, waiting
     status = STATUS
     while True:
-
-
-
-
-
-
 
         if not request_queue.empty():
             button_state = request_queue.get()
